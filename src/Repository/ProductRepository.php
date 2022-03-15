@@ -54,6 +54,10 @@ class ProductRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')
             ->setParameter('val', $value)
+
+            ->andWhere('p.exampleField2 = :val')
+            ->setParameter('val', $value)
+
             ->orderBy('p.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
@@ -61,6 +65,7 @@ class ProductRepository extends ServiceEntityRepository
         ;
     }
     */
+
 
     /*
     public function findOneBySomeField($value): ?Product
