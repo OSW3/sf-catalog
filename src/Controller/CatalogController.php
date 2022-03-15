@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Form\ProductType;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,7 +45,7 @@ class CatalogController extends AbstractController
      * 
      * @Route("", name="create")
      */
-    public function create(Request $request, ValidatorInterface $validator): Response
+    public function create(ManagerRegistry $doctrine, Request $request, ValidatorInterface $validator): Response
     {
         $errors = [];
 
@@ -63,6 +64,15 @@ class CatalogController extends AbstractController
         // Catch form submission
         if ( $form->isSubmitted() )
         {
+            // Check the form integrity (CSRF Token)
+            $submittedToken = $request->request->get('product')['_csrf_product_token'];
+            if (!$this->isCsrfTokenValid('_csrf_product_token_id', $submittedToken))
+            {
+                dd("Erreur de token");
+            }
+
+
+
             // Handle form errors
             $errors = $validator->validate( $product );
 
@@ -71,7 +81,8 @@ class CatalogController extends AbstractController
             {
                 
                 // Enregistrement en BDD
-                $em = $this->getDoctrine()->getManager();
+                // $em = $this->getDoctrine()->getManager();
+                $em = $doctrine->getManager();
                 $em->persist( $product );
                 $em->flush();
 

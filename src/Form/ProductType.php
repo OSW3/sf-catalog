@@ -59,12 +59,82 @@ class ProductType extends AbstractType
             // label: Description du produit
             // min : 10 caracteres
             // max : 80 caracters
-            ->add('description', TextareaType::class)
+            ->add('description', TextareaType::class, [
+                'label' => "Description du produit",
+                'label_attr' => [
+                    'class' => "col-sm-3 col-form-label",
+                ],
+
+                // make it required
+                'required' => false,
+
+                // Field attributes
+                'attr' => [
+                    'class' => "form-control",
+                    'placeholder' => "Saisir la description du produit",
+                ],
+
+                // Field helper
+                'help' => "Merci de saisir la description du produit dans le champ",
+                'help_attr' => [
+                    'class' => "form-text text-muted",
+                ],
+
+                // Form constraints and error messages
+                'constraints' => [
+                    new Length([
+                        'min' => 10,
+                        'max' => 80,
+                        'minMessage' => "La description du produit doit contenir au moin {{ limit }} caracteres",
+                        'maxMessage' => "La description du produit est limité à {{ limit }} caracteres",
+                    ]),
+                ],
+
+            ])
 
             // Price
             // label: Prix du produit en dollar
             // max : 999,99
-            ->add('price', MoneyType::class)
+            ->add('price', MoneyType::class, [
+
+                // label
+                'label' => "Prix du produit",
+                'label_attr' => [
+                    'class' => "col-sm-3 col-form-label",
+                ],
+
+                // make it required
+                'required' => true,
+
+                // Currency 
+                'currency' => "USD",
+
+                // convert <input type="text"> to <input type="number">
+                'html5' => true,
+
+                // Field attributes
+                'attr' => [
+                    'class' => "form-control",
+                    'placeholder' => "Saisir le prix du produit",
+                ],
+
+                // Field helper
+                'help' => "Merci de renseigner le prix du produit",
+                'help_attr' => [
+                    'class' => "form-text text-muted",
+                ],
+
+                // Form constraints and error messages
+                'constraints' => [
+                    new NotBlank([
+                        'message' => "Le prix du produit est obligatoire",
+                    ]),
+                    new Length([
+                        'max' => 120,
+                        'maxMessage' => "Le prix du produit est limité à {{ limit }} caracteres",
+                    ]),
+                ],
+            ])
 
         ;
     }
@@ -73,6 +143,10 @@ class ProductType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Product::class,
+
+            'csrf_protection' => true,
+            'csrf_field_name' => '_csrf_product_token',
+            'csrf_token_id'   => '_csrf_product_token_id',
         ]);
     }
 }
