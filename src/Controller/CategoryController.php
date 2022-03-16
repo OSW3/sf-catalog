@@ -107,8 +107,52 @@ class CategoryController extends AbstractController
      * 
      * @Route("y/{id}/edit", name="update")
      */
-    public function update(): Response
+    public function update(Category $category, ManagerRegistry $doctrine, Request $request, ValidatorInterface $validator): Response
     {
+        // Construction du formulaire
+        $form = $this->createForm(CategoryType::class, $category);
+
+        // Récupération de la requete HTTP
+        $form->handleRequest($request);
+
+        // Test la soumission du formulaire
+        if ($form->isSubmitted())
+        {
+            // Récupération du CSRF Token
+            $csrf_token = $request->request->get( $form->getName() )['_csrf_category_token'];
+
+            // Vérifier l'intégrité du formulaire (CSRF Token)
+            if ( ! $this->isCsrfTokenValid('_csrf_category_token_id', $csrf_token) )
+            {
+                throw new \Exception("Erreur de token");
+            }
+            
+            // Validation du formulaire
+            $validator->validate( $category );
+
+            if ($form->isValid())
+            {
+                // Ajouter des valeurs par défaut
+
+                // Enregistrement des données en BDD
+                $em = $doctrine->getManager();
+                $em->persist( $category );
+                $em->flush();
+
+                // Redirection de l'utilisateur vers la page du détail de la catégorie
+                return $this->redirectToRoute('app_category_read', [
+                    'id' => $category->getId()
+                ]);
+            }
+        }
+
+        // Préparation du formulaire pour la vue
+        $form = $form->createView();
+
+        // Transmission du formulaire à la vue
+        return $this->render('category/update.html.twig', [
+            'form' => $form
+        ]);
     }
 
 
