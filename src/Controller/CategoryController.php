@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
+use App\Repository\CategoryRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,9 +22,12 @@ class CategoryController extends AbstractController
      * 
      * @Route("ies", name="index")
      */
-    public function index(): Response
+    public function index(CategoryRepository $categoryRepository): Response
     {
+        $categories = $categoryRepository->findAll();
+
         return $this->render('category/index.html.twig', [
+            'categories' => $categories
         ]);
     }
 
@@ -92,6 +96,15 @@ class CategoryController extends AbstractController
      */
     public function read(): Response
     {
+        // Recupération de l'id
+        // Connexion BDD
+        // Requete SELECT * FROM category WHERE id=$id
+        // Recupération du résultat
+        // Envois à la vue
+
+        return $this->render('category/read.html.twig', [
+
+        ]);
     }
 
 

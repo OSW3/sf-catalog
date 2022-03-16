@@ -7,4 +7,50 @@
 
 <a href="{{ url('app_category_create') }}">Ajouter une catégorie</a>
 
+<hr>
+
+
+{{ dump( categories ) }}
+
+{# Liste des catégories #}
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for category in categories %}  
+        <tr>
+            <td>{{ category.id }}</td>
+            <td>{{ category.name }}</td>
+            <td><a href="{{ url('app_category_read', {id: category.id}) }}">Voir la catégorie</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+
+
+
+    {# <tbody>
+        <tr>
+            <td>1</td>
+            <td>azert</td>
+            <td><a href="#">Voir la catégorie</a></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>xxxx</td>
+            <td><a href="#">Voir la catégorie</a></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>xxxx</td>
+            <td><a href="#">Voir la catégorie</a></td>
+        </tr>
+    </tbody> #}
+</table>
 {% endblock %}
