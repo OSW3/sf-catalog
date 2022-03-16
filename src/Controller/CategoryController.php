@@ -94,16 +94,10 @@ class CategoryController extends AbstractController
      * 
      * @Route("y/{id}", name="read")
      */
-    public function read(): Response
+    public function read(Category $category): Response
     {
-        // Recupération de l'id
-        // Connexion BDD
-        // Requete SELECT * FROM category WHERE id=$id
-        // Recupération du résultat
-        // Envois à la vue
-
         return $this->render('category/read.html.twig', [
-
+            'category' => $category
         ]);
     }
 
