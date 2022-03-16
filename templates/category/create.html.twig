@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{# Definition de la variable "title" #}
+{% set title = "Ajouter une catégorie" %}
+
+{% block title %}{{ title }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1>{{ title }}</h1>
+
+    {{ form_start(form) }}
+    
+    {{ form_widget(form) }}
+    <button type="submit">send</button>
+    
+    {{ form_end(form) }}
+
+{% endblock %}
