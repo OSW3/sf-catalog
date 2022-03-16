@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/categor", name="app_category_")
@@ -31,13 +33,13 @@ class CategoryController extends AbstractController
      * 
      * @Route("y", name="create")
      */
-    public function create(Request $request): Response
+    public function create(ManagerRegistry $doctrine, Request $request, ValidatorInterface $validator): Response
     {
         // Initialisation du l'entité
         $category = new Category;
 
         // Construction du formulaire
-        $form = $this->createForm(CategoryType::class);
+        $form = $this->createForm(CategoryType::class, $category);
 
         // Récupération de la requete HTTP
         $form->handleRequest($request);
@@ -45,20 +47,32 @@ class CategoryController extends AbstractController
         // Test la soumission du formulaire
         if ($form->isSubmitted())
         {
-
-            // Debug du formulaire
+            // Récupération du CSRF Token
+            $csrf_token = $request->request->get( $form->getName() )['_csrf_category_token'];
 
             // Vérifier l'intégrité du formulaire (CSRF Token)
-                // Message d'erreur de token
+            if ( ! $this->isCsrfTokenValid('_csrf_category_token_id', $csrf_token) )
+            {
+                throw new \Exception("Erreur de token");
+            }
             
             // Validation du formulaire
+            $validator->validate( $category );
 
+            if ($form->isValid())
+            {
                 // Ajouter des valeurs par défaut
 
                 // Enregistrement des données en BDD
+                $em = $doctrine->getManager();
+                $em->persist( $category );
+                $em->flush();
 
                 // Redirection de l'utilisateur vers la page du détail de la catégorie
-
+                return $this->redirectToRoute('app_category_read', [
+                    'id' => $category->getId()
+                ]);
+            }
         }
 
         // Préparation du formulaire pour la vue

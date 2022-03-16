@@ -92,6 +92,10 @@ class CategoryType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Category::class,
+
+            'csrf_protection' => true, // Activation de la protection
+            'csrf_field_name' => '_csrf_category_token', // Definition du nom du champ <input type="hidden" name="_csrf_category_token">
+            'csrf_token_id'   => '_csrf_category_token_id', // id pour le stockage du Token
         ]);
     }
 }
