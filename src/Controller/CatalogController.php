@@ -138,5 +138,10 @@ class CatalogController extends AbstractController
      */
     public function delete(int $id): Response
     {
+        // Recup ID
+        // Connexion BDD
+        // definition de la Requete SQL DELETE FROM table WHERE id=$i
+        // execution de la requete
+        // Affiche la vue (avec message de confirmation de suppression)
     }
 }

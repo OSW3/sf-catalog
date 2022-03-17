@@ -20,7 +20,7 @@ class CategoryController extends AbstractController
     /**
      * Liste des catégories
      * 
-     * @Route("ies", name="index")
+     * @Route("ies", name="index", methods={"HEAD","GET"})
      */
     public function index(CategoryRepository $categoryRepository): Response
     {
@@ -35,7 +35,7 @@ class CategoryController extends AbstractController
     /**
      * Créer une catégorie
      * 
-     * @Route("y", name="create")
+     * @Route("y", name="create", methods={"HEAD", "GET", "POST"})
      */
     public function create(ManagerRegistry $doctrine, Request $request, ValidatorInterface $validator): Response
     {
@@ -92,7 +92,7 @@ class CategoryController extends AbstractController
     /**
      * Lire le détail d'une catégorie
      * 
-     * @Route("y/{id}", name="read")
+     * @Route("y/{id}", name="read", methods={"HEAD", "GET"})
      */
     public function read(Category $category): Response
     {
@@ -105,7 +105,7 @@ class CategoryController extends AbstractController
     /**
      * Editer une catégorie
      * 
-     * @Route("y/{id}/edit", name="update")
+     * @Route("y/{id}/edit", name="update", methods={"HEAD", "GET", "POST"})
      */
     public function update(Category $category, ManagerRegistry $doctrine, Request $request, ValidatorInterface $validator): Response
     {
@@ -159,10 +159,32 @@ class CategoryController extends AbstractController
     /**
      * Supprimer une catégorie
      * 
-     * @Route("y/{id}/delete", name="delete")
+     * @Route("y/{id}/delete", name="delete", methods={"HEAD", "GET", "DELETE"})
      */
-    public function delete(): Response
+    public function delete(ManagerRegistry $doctrine, Category $category, Request $request): Response
     {
+        // Condition
+        if ($request->getMethod() == 'DELETE')
+        {
+            // Générer le message de confirmation d'execution de la suppression
+            $message = "La categorie <strong>". $category->getName() ."</strong> à été supprimée";
+
+            // Suppression de la BDD
+            $em = $doctrine->getManager();
+            $em->remove( $category );
+            $em->flush();
+
+            // Ajout du message dans la session
+            $this->addFlash('success', $message);
+
+            // Redirection de l'utilisateur
+            return $this->redirectToRoute('app_category_index');
+        }
+
+        // Affichage d'un message de confirmation de suppression
+        return $this->render('category/delete.html.twig', [
+            'category' => $category
+        ]);
     }
 
 }
