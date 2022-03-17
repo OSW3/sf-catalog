@@ -139,6 +139,8 @@ class CategoryController extends AbstractController
                 $em->persist( $category );
                 $em->flush();
 
+
+
                 // Redirection de l'utilisateur vers la page du détail de la catégorie
                 return $this->redirectToRoute('app_category_read', [
                     'id' => $category->getId()
@@ -158,6 +160,10 @@ class CategoryController extends AbstractController
 
     /**
      * Supprimer une catégorie
+     * 
+     * /!\ dans le fichier config/packages/framework.yaml, modifier le parametre "http_method_override"
+     * framework:
+     *      http_method_override: true
      * 
      * @Route("y/{id}/delete", name="delete", methods={"HEAD", "GET", "DELETE"})
      */
