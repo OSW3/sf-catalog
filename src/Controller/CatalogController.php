@@ -71,8 +71,6 @@ class CatalogController extends AbstractController
                 dd("Erreur de token");
             }
 
-
-
             // Handle form errors
             $errors = $validator->validate( $product );
 
