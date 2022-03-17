@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ product.title }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1>{{ product.title }}</h1>
+
+    <p>description : {{ product.description }}</p>
+    <p>prix : {{ product.price }} &euro;</p>
+
+    <hr>
+
+    <a href="{{ url('app_product_update', {id: product.id}) }}">Modifier</a> - 
+    <a href="{{ url('app_product_delete', {id: product.id}) }}">Supprimer</a>
+{% endblock %}
