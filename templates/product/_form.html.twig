@@ -31,9 +31,18 @@
 </div>
 
 
+{# Marque du produit #}
+<div class="form-group">
+    {{ form_label(form.brand) }}
+    {{ form_widget(form.brand) }}
+    {{ form_errors(form.brand) }}
+    {{ form_help(form.brand) }}
+</div>
+
+
 
 {# {{ form_widget(form) }} #}
 
 <button type="submit">{{ btn_label | default("Ajouter un produit") }}</button>
 
-{{ form_end(form, {'render_rest': true}) }}
+{{ form_end(form, {'render_rest': false}) }}

@@ -15,6 +15,7 @@
         <tr>
             <th>ID</th>
             <th>Nom</th>
+            <th>Marque</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -24,6 +25,7 @@
         <tr>
             <td>{{ product.id }}</td>
             <td>{{ product.title }}</td>
+            <td>{{ product.brand.name }}</td>
             <td><a href="{{ url('app_product_read', {id: product.id}) }}">Voir</a></td>
         </tr>
     {% endfor %}

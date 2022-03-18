@@ -139,18 +139,16 @@ class ProductType extends AbstractType
                 ],
             ])
 
-            // ->add('brand', ChoiceType::class, [
-            //     'choices'  => [
-            //         'Maybe' => "aaa",
-            //         'Yes' => "bbb",
-            //         'No' => "ccc",
-            //     ],
-            // ])
+            // Marque
             ->add('brand', EntityType::class, [
                 'class' => Brand::class,
-                'choice_label' => 'name',
-            ])
+                
+                // 'choice_label' => "name", 
+                'choice_label' => function ($brand) {
+                    return $brand->getId() ." - ". $brand->getName();
+                }
 
+            ])
         ;
     }
 
