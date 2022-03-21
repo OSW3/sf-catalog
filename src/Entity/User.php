@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -180,9 +181,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->screenname;
     }
 
-    public function setScreenname(string $screenname): self
+    /**
+     * @ORM\PrePersist
+     */
+    public function setScreenname(): self
     {
-        $this->screenname = $screenname;
+        $this->screenname = $this->firstname;
+        $this->screenname.= " "; 
+        $this->screenname.= substr($this->lastname, 0, 1); 
+        $this->screenname.= "."; 
 
         return $this;
     }
