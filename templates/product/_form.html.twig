@@ -54,6 +54,17 @@
     >
 
     {# Affiche les catégories #}
+    {% for field in form.categories %}
+    <div data-field-serial="{{ loop.index0 }}">
+        {{ form_widget(field) }}
+        <button type="button" 
+            class="btn btn-danger btn-sm" 
+            data-target="{{ loop.index0 }}"
+            data-action="click->collection#remove"
+        > &times; </button>
+    </div>
+    {% endfor %}
+
 
 
     {# Bouton "ajouter une catégorie" #}
@@ -82,4 +93,4 @@
 <button type="submit">{{ btn_label | default("Ajouter un produit") }}</button>
 
 
-{{ form_end(form, {'render_rest': true}) }}
+{{ form_end(form, {'render_rest': false}) }}
