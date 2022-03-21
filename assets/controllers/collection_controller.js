@@ -9,6 +9,7 @@ export default class extends Controller {
 
     connect() 
     {
+        // Recupération des noeud HTML dès le déclenchement du controller
         this.container = this.element;
         this.counter = this.container.dataset.itemCounter;
         this.templateId = this.container.dataset.templateId;
@@ -28,11 +29,11 @@ export default class extends Controller {
         // Mise à jour du compteur
         this.container.dataset.itemCounter = this.counter;
 
-        // Création d'un Noeu HTML a partir de la chaine "newWidget"
+        // Création d'un noeud HTML a partir de la chaine "newWidget"
         var parser = new DOMParser();
         var widget = parser.parseFromString(newWidget, 'text/html');
 
-        // Injection du noeu HTML dans le container de collection
+        // Injection du noeud HTML dans le container de collection
         this.container.prepend( widget.body );
     }
 }
