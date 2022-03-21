@@ -6,6 +6,7 @@ export default class extends Controller {
     counter;
     newWidget;
     templateId;
+    initItems;
 
     connect() 
     {
@@ -13,8 +14,11 @@ export default class extends Controller {
         this.container = this.element;
         this.counter = this.container.dataset.itemCounter;
         this.templateId = this.container.dataset.templateId;
+        this.initItems = this.container.dataset.initItems || 1;
 
         this.newWidget = this.container.querySelector(`[id=${this.templateId}]`);
+
+        for (let i=0; i<this.initItems; i++) this.add();
     }
 
     add()
@@ -33,7 +37,25 @@ export default class extends Controller {
         var parser = new DOMParser();
         var widget = parser.parseFromString(newWidget, 'text/html');
 
+        // Ajout d'un attribut d'identification du noeud "widget"
+        widget = widget.body
+        widget.dataset.fieldSerial = this.counter-1;
+
         // Injection du noeud HTML dans le container de collection
-        this.container.prepend( widget.body );
+        this.container.prepend( widget );
+    }
+
+    remove(event)
+    {
+        let btn = event.target
+
+        // Recupération de l'ID de widget a supprimer
+        let widgetId = btn.dataset.target
+
+        // Cible le widget a supprimer
+        let widget = this.container.querySelector(`[data-field-serial="${widgetId}"]`);
+
+        // Suppression du widget
+        widget.remove();
     }
 }
