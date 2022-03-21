@@ -152,16 +152,24 @@ class ProductType extends AbstractType
             ])
 
             // Categories
-            // ->add('categories', EntityType::class, [
-            //     'class' => Category::class,
-            //     'choice_label' => "name",
+            ->add('categories', CollectionType::class, [
+                'label' => "Ajouter des catégories",
 
-            //     // 'multiple' => true,
-            // ])
-            // ->add('categories', CollectionType::class, [
+                // On base la Collection sur une entité
+                'entry_type' => EntityType::class,
 
-            //     // 'multiple' => true,
-            // ])
+                // On défini la classe de l'entité
+                'entry_options' => [
+                    'class' => Category::class,
+                    'choice_label' => "name",
+                ],
+
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
+
+                // 'multiple' => true,
+            ])
         ;
     }
 
