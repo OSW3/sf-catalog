@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,7 +27,7 @@ class RegistrationFormType extends AbstractType
                 // label
                 'label' => "Prénom",
                 'label_attr' => [
-                    'class' => "col-sm-3 col-form-label",
+                    'class' => "col-form-label",
                 ],
 
                 // make it required
@@ -55,7 +56,7 @@ class RegistrationFormType extends AbstractType
                 // label
                 'label' => "nom",
                 'label_attr' => [
-                    'class' => "col-sm-3 col-form-label",
+                    'class' => "col-form-label",
                 ],
 
                 // make it required
@@ -90,7 +91,7 @@ class RegistrationFormType extends AbstractType
                 // label
                 'label' => "Genre",
                 'label_attr' => [
-                    'class' => "col-sm-3 col-form-label",
+                    'class' => "col-form-label",
                 ],
 
                 // make it required
@@ -115,7 +116,7 @@ class RegistrationFormType extends AbstractType
                 // label
                 'label' => "Email",
                 'label_attr' => [
-                    'class' => "col-sm-3 col-form-label",
+                    'class' => "col-form-label",
                 ],
 
                 // make it required
@@ -135,23 +136,69 @@ class RegistrationFormType extends AbstractType
             ])
 
             // Password
-            ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
+
+                'first_options'  => [
+                    // label
+                    'label' => "Mot de passe",
+                    'label_attr' => [
+                        'class' => "col-form-label",
+                    ],
+
+                    'empty_data' => '',
+
+                    // Field attributes
+                    'attr' => [
+                        'class' => "form-control",
+                    ],
+
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => "Le mot de passe est obligatoire",
+                        ]),
+                        new Length([
+                            'min' => 6,
+                            'minMessage' => "Le mot de passe doit avoir {{ limit }} caractères minimum.",
+                            'max' => 40,
+                            'maxMessage' => "Le mot de passe doit avoir {{ limit }} caractères maximum.",
+                        ]),
+                    ],
                 ],
+
+                'second_options' => [
+                    // label
+                    'label' => "Repeter le mot de passe",
+                    'label_attr' => [
+                        'class' => "col-form-label",
+                    ],
+                    // Field attributes
+                    'attr' => [
+                        'class' => "form-control",
+                    ],
+                ],
+
+                'invalid_message' => "Le mot de passe ne sont pas identiques",
             ])
+
+            // ->add('plainPassword', PasswordType::class, [
+            //     // instead of being set onto the object directly,
+            //     // this is read and encoded in the controller
+            //     'mapped' => false,
+            //     'attr' => ['autocomplete' => 'new-password'],
+            //     'constraints' => [
+            //         new NotBlank([
+            //             'message' => 'Please enter a password',
+            //         ]),
+            //         new Length([
+            //             'min' => 6,
+            //             'minMessage' => 'Your password should be at least {{ limit }} characters',
+            //             // max length allowed by Symfony for security reasons
+            //             'max' => 4096,
+            //         ]),
+            //     ],
+            // ])
 
             // Repeated Password
 
