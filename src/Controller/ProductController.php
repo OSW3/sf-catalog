@@ -78,7 +78,6 @@ class ProductController extends AbstractController
             // If the form is valid
             if ( $form->isValid() )
             {
-                
                 // Enregistrement en BDD
                 // $em = $this->getDoctrine()->getManager();
                 $em = $doctrine->getManager();

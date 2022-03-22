@@ -4,12 +4,14 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -61,7 +63,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $birthday;
 
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $registerAt;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastLoginAt;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive = false;
+
+
+    public function __construct()
+    {
+        $this->registerAt = new \DateTimeImmutable;
+    }
     
     public function getId(): ?int
     {
@@ -214,6 +235,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBirthday(\DateTimeInterface $birthday): self
     {
         $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    public function getRegisterAt(): ?\DateTimeImmutable
+    {
+        return $this->registerAt;
+    }
+
+    public function setRegisterAt(\DateTimeImmutable $registerAt): self
+    {
+        $this->registerAt = $registerAt;
+
+        return $this;
+    }
+
+    public function getLastLoginAt(): ?\DateTimeInterface
+    {
+        return $this->lastLoginAt;
+    }
+
+    public function setLastLoginAt(?\DateTimeInterface $lastLoginAt): self
+    {
+        $this->lastLoginAt = $lastLoginAt;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }
