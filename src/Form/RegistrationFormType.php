@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -12,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -182,28 +184,31 @@ class RegistrationFormType extends AbstractType
                 'invalid_message' => "Le mot de passe ne sont pas identiques",
             ])
 
-            // ->add('plainPassword', PasswordType::class, [
-            //     // instead of being set onto the object directly,
-            //     // this is read and encoded in the controller
-            //     'mapped' => false,
-            //     'attr' => ['autocomplete' => 'new-password'],
-            //     'constraints' => [
-            //         new NotBlank([
-            //             'message' => 'Please enter a password',
-            //         ]),
-            //         new Length([
-            //             'min' => 6,
-            //             'minMessage' => 'Your password should be at least {{ limit }} characters',
-            //             // max length allowed by Symfony for security reasons
-            //             'max' => 4096,
-            //         ]),
-            //     ],
-            // ])
-
-            // Repeated Password
-
             // Birthday
-            ->add('birthday')
+            ->add('birthday', BirthdayType::class, [
+
+                'required' => true,
+                
+                'placeholder' => [
+                    'year' => "Année",
+                    'month' => "Mois",
+                    'day' => "Jour",
+                ],
+
+                // 'years' => array_reverse(range(1919, 2009)),
+                'years' => range(2009, 1919),
+
+                'constraints' => [
+                    new GreaterThan([
+                        'value' => new \DateTime('now'),
+                        'message' => "La date de naissance n'est pas valide",
+                    ]),
+                    new NotBlank([
+                        'message' => "La date de naissance est obligatoire",
+                    ]),
+                ],
+
+            ])
 
             // Agree Terms
             ->add('agreeTerms', CheckboxType::class, [
