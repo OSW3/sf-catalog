@@ -35,7 +35,7 @@ class RegistrationFormType extends AbstractType
 
                 // Field attributes
                 'attr' => [
-                    'class' => "form-control",
+                    // 'class' => "form-control",
                 ],
 
                 // Form constraints and error messages
@@ -64,7 +64,7 @@ class RegistrationFormType extends AbstractType
 
                 // Field attributes
                 'attr' => [
-                    'class' => "form-control",
+                    // 'class' => "form-control",
                 ],
 
                 // Form constraints and error messages
@@ -99,7 +99,7 @@ class RegistrationFormType extends AbstractType
 
                 // Field attributes
                 'attr' => [
-                    'class' => "form-control",
+                    // 'class' => "form-control",
                 ],
 
                 // Form constraints and error messages
@@ -124,7 +124,7 @@ class RegistrationFormType extends AbstractType
 
                 // Field attributes
                 'attr' => [
-                    'class' => "form-control",
+                    // 'class' => "form-control",
                 ],
 
                 // Form constraints and error messages
@@ -151,7 +151,7 @@ class RegistrationFormType extends AbstractType
 
                     // Field attributes
                     'attr' => [
-                        'class' => "form-control",
+                        // 'class' => "form-control",
                     ],
 
                     'constraints' => [
@@ -175,7 +175,7 @@ class RegistrationFormType extends AbstractType
                     ],
                     // Field attributes
                     'attr' => [
-                        'class' => "form-control",
+                        // 'class' => "form-control",
                     ],
                 ],
 
