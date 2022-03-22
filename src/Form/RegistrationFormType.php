@@ -5,7 +5,10 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -18,13 +21,118 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             // Firstname
+            ->add('firstname', TextType::class, [
+
+                // label
+                'label' => "Prénom",
+                'label_attr' => [
+                    'class' => "col-sm-3 col-form-label",
+                ],
+
+                // make it required
+                'required' => true,
+
+                // Field attributes
+                'attr' => [
+                    'class' => "form-control",
+                ],
+
+                // Form constraints and error messages
+                'constraints' => [
+                    new NotBlank([
+                        'message' => "Le prénom est obligatoire",
+                    ]),
+                    new Length([
+                        'max' => 80,
+                        'maxMessage' => "Votre prénom est limité à {{ limit }} caractères",
+                    ]),
+                ],
+            ])
 
             // Lastname
+            ->add('lastname', TextType::class, [
+
+                // label
+                'label' => "nom",
+                'label_attr' => [
+                    'class' => "col-sm-3 col-form-label",
+                ],
+
+                // make it required
+                'required' => true,
+
+                // Field attributes
+                'attr' => [
+                    'class' => "form-control",
+                ],
+
+                // Form constraints and error messages
+                'constraints' => [
+                    new NotBlank([
+                        'message' => "Le nom est obligatoire",
+                    ]),
+                    new Length([
+                        'max' => 80,
+                        'maxMessage' => "Votre nom est limité à {{ limit }} caractères",
+                    ]),
+                ],
+            ])
 
             // Gender
+            ->add('genre', ChoiceType::class, [
+                'choices' => [
+                    "Homme" => "M",
+                    "Femme" => "F",
+                    "Ne sais pas" => "N",
+                ],
+
+
+                // label
+                'label' => "Genre",
+                'label_attr' => [
+                    'class' => "col-sm-3 col-form-label",
+                ],
+
+                // make it required
+                'required' => true,
+
+                // Field attributes
+                'attr' => [
+                    'class' => "form-control",
+                ],
+
+                // Form constraints and error messages
+                'constraints' => [
+                    new NotBlank([
+                        'message' => "Le genre est obligatoire",
+                    ]),
+                ],
+            ])
 
             // Email
-            ->add('email')
+            ->add('email' , EmailType::class, [
+
+                // label
+                'label' => "Email",
+                'label_attr' => [
+                    'class' => "col-sm-3 col-form-label",
+                ],
+
+                // make it required
+                'required' => true,
+
+                // Field attributes
+                'attr' => [
+                    'class' => "form-control",
+                ],
+
+                // Form constraints and error messages
+                'constraints' => [
+                    new NotBlank([
+                        'message' => "L'adresse email est obligatoire",
+                    ]),
+                ],
+            ])
 
             // Password
             ->add('plainPassword', PasswordType::class, [
@@ -48,6 +156,7 @@ class RegistrationFormType extends AbstractType
             // Repeated Password
 
             // Birthday
+            ->add('birthday')
 
             // Agree Terms
             ->add('agreeTerms', CheckboxType::class, [
