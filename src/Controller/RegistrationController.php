@@ -22,7 +22,7 @@ class RegistrationController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         
-        dd( $form->get('birthday') );
+        // dd( $form->get('birthday') );
         
         $form->handleRequest($request);
 

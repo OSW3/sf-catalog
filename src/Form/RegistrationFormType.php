@@ -16,6 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationFormType extends AbstractType
@@ -188,7 +189,7 @@ class RegistrationFormType extends AbstractType
             ->add('birthday', BirthdayType::class, [
 
                 'required' => true,
-                
+
                 'placeholder' => [
                     'year' => "Année",
                     'month' => "Mois",
@@ -199,8 +200,8 @@ class RegistrationFormType extends AbstractType
                 'years' => range(2009, 1919),
 
                 'constraints' => [
-                    new GreaterThan([
-                        'value' => new \DateTime('now'),
+                    new LessThanOrEqual([
+                        'value' => (new \DateTime('now'))->modify('-13 years'),
                         'message' => "La date de naissance n'est pas valide",
                     ]),
                     new NotBlank([
