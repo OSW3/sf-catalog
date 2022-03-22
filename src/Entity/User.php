@@ -59,12 +59,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $genre;
 
     /**
-     * @ORM\Column(type="date_immutable")
+     * @ORM\Column(type="date")
      */
     private $birthday;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime")
      */
     private $registerAt;
 
@@ -81,7 +81,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->registerAt = new \DateTimeImmutable;
+        $this->registerAt = new \DateTime;
     }
     
     public function getId(): ?int
@@ -239,12 +239,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRegisterAt(): ?\DateTimeImmutable
+    public function getRegisterAt(): ?\DateTime
     {
         return $this->registerAt;
     }
 
-    public function setRegisterAt(\DateTimeImmutable $registerAt): self
+    public function setRegisterAt(\DateTime $registerAt): self
     {
         $this->registerAt = $registerAt;
 
