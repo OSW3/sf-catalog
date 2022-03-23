@@ -17,6 +17,7 @@ class CategoryFixtures extends Fixture implements OrderedFixtureInterface
             'name' => "Sport",
             'description' => "Description de la catégorie sport",
             'color' => "#FF0000",
+            'reference' => "categ-1"
         ],
 
         // Categorie 2
@@ -24,6 +25,7 @@ class CategoryFixtures extends Fixture implements OrderedFixtureInterface
             'name' => "Informatique",
             'description' => null,
             'color' => "#00FF00",
+            'reference' => "categ-2"
         ],
 
         // Categorie 3
@@ -31,6 +33,7 @@ class CategoryFixtures extends Fixture implements OrderedFixtureInterface
             'name' => "Boisson",
             'description' => "Description de la catégorie boisson",
             'color' => "#0000FF",
+            'reference' => "categ-3"
         ],
 
     ];
@@ -46,6 +49,8 @@ class CategoryFixtures extends Fixture implements OrderedFixtureInterface
             $category->setName( $data['name'] );
             $category->setDescription( $data['description'] );
             $category->setColor( $data['color'] );
+
+            $this->setReference( $data['reference'], $category );
 
             // On persiste l'entité
             $manager->persist( $category );

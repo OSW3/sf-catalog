@@ -15,26 +15,26 @@ class AProductFixtures extends Fixture implements OrderedFixtureInterface
             'title' => "iPhone",
             'description' => "",
             'price' => 999.99,
-            'brand' => null,
+            'brand' => "brand-3",
             "categories" => [
-                null,
+                "categ-2",
             ]
         ],
         [
             'title' => "Z Fold",
             'description' => "",
             'price' => 999.99,
-            'brand' => null,
+            'brand' => "brand-1",
             "categories" => []
         ],
         [
             'title' => "Produit 3",
             'description' => "",
             'price' => 999.99,
-            'brand' => null,
+            'brand' => "brand-2",
             "categories" => [
-                null,
-                null,
+                "categ-1",
+                "categ-3",
             ]
         ],
     ];
@@ -50,9 +50,12 @@ class AProductFixtures extends Fixture implements OrderedFixtureInterface
             $product->setPrice( $data['price'] );
             
 
-            // $product->setBrand( $data['brand'] );
+            $product->setBrand( $this->getReference($data['brand']) );
 
-            // $product->addCategory( $data['categories'][0] );
+            foreach ($data['categories'] as $category)
+            {
+                $product->addCategory($this->getReference($category) );
+            }
 
 
             $manager->persist( $product );
@@ -63,6 +66,6 @@ class AProductFixtures extends Fixture implements OrderedFixtureInterface
 
     public function getOrder(): int
     {
-        return 1;
+        return 2;
     }
 }

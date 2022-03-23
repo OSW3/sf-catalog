@@ -13,12 +13,15 @@ class BrandFixtures extends Fixture implements OrderedFixtureInterface
     const DATA = [
         [
             'name' => "Marque 1",
+            'reference' => "brand-1",
         ],
         [
             'name' => "Marque 2",
+            'reference' => "brand-2",
         ],
         [
             'name' => "Marque 3",
+            'reference' => "brand-3",
         ],
 
     ];
@@ -31,8 +34,22 @@ class BrandFixtures extends Fixture implements OrderedFixtureInterface
 
             $brand->setName( $data['name'] );
 
+            $this->setReference( $data['reference'], $brand );
+
             $manager->persist( $brand );
         }
+
+        // $fixtures_ref = [
+        //     'brand-1' => [
+        //         'name' => "Marque 1",
+        //     ],
+        //     'brand-2' => [
+        //         'name' => "Marque 2",
+        //     ],
+        //     'brand-3' => [
+        //         'name' => "Marque 3",
+        //     ],
+        // ]
 
         $manager->flush();
     }
