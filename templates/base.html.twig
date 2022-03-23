@@ -52,7 +52,14 @@
         <hr>
 
         <footer>
-            {{ copyright() }}
+            {{ copyright() }} <br>
+            {# &copy; 2022 - SuperCatalog 2000  OK #}
+
+            {{ copyright(2009) }} <br>
+            {# &copy; 2009-2022 - SuperCatalog 2000  OK #}
+
+            {{ copyright(2023) }}
+            {# &copy; 2022 - SuperCatalog 2000  PAS OK #}
         </footer>
 
     </body>

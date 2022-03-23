@@ -25,8 +25,21 @@ class CopyrightExtension extends AbstractExtension
         ];
     }
 
-    public function get_copyright(): string
+    public function get_copyright(?int $defaultYear=null): string
     {
-        return "&copy; 2021 - SuperCatalog 2000";
+        $currentYear = date('Y');
+
+        $outputStr = "&copy; ";
+
+        if (null != $defaultYear && $defaultYear < $currentYear)
+        {
+            $outputStr.= $defaultYear."-";
+        }
+
+        $outputStr.= $currentYear;
+        $outputStr.= " - SuperCatalog 2000";
+
+
+        return $outputStr;
     }
 }
