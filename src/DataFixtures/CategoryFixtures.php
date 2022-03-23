@@ -4,9 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class CategoryFixtures extends Fixture
+class CategoryFixtures extends Fixture implements OrderedFixtureInterface
 {
     // Definition de la liste des categories
     const DATA = [
@@ -51,5 +52,10 @@ class CategoryFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    public function getOrder(): int
+    {
+        return 1;
     }
 }
