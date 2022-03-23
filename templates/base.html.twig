@@ -21,6 +21,20 @@
                 <a href="{{ url('app_product_index') }}">Nos produits</a> - 
                 <a href="{{ url('app_category_index') }}">Catégories</a> -
                 <a href="{{ url('app_brand_index') }}">Les marques</a> -
+
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {# IS_AUTHENTICATED_REMEMBERED #}
+                    {# IS_AUTHENTICATED_FULLY #}
+                    {# IS_AUTHENTICATED_ANONYMOUSLY #}
+                    <a href="#">UserName</a> -
+                    <a href="#">Deconnexion</a>
+                {% else %}
+                    <a href="{{ url('app_register') }}">Inscription</a> -
+                    <a href="#">Connexion</a>
+                {% endif %}
+
+
+
             </nav>
         </header>
 
